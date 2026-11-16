@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101713">
+<meta name="description" content="DREAM 184 — your personal 184-day discipline and productivity tracker.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>DREAM 184</title>
+<style>
+:root{--bg:#0d1410;--panel:#151f19;--panel2:#1c2921;--line:#2b3a30;--text:#eff8f0;--muted:#9caf9f;--green:#69d69a;--yellow:#f2c66d;--red:#f07e7e;--radius:18px}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#1b3023 0,#0d1410 52%);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:env(safe-area-inset-top) 14px calc(24px + env(safe-area-inset-bottom));}
+main{max-width:760px;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;padding:18px 2px 12px}.brand{font-weight:900;letter-spacing:2px;font-size:14px;color:var(--green)}.tag{font-size:11px;color:var(--muted);border:1px solid var(--line);padding:5px 9px;border-radius:99px}
+h1{font-size:30px;line-height:1.08;margin:8px 0}.sub{color:var(--muted);margin:0 0 18px}.card{background:linear-gradient(145deg,#19251e,#131c17);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin:12px 0;box-shadow:0 10px 30px #0002}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.muted{color:var(--muted)}.small{font-size:12px}.score{font-size:40px;font-weight:850;color:var(--green);font-variant-numeric:tabular-nums}.bar{height:9px;border-radius:20px;background:#2b3930;overflow:hidden;margin:10px 0}.bar>i{display:block;height:100%;background:linear-gradient(90deg,#42b978,#8be3ad);width:0%;border-radius:20px}
+h2{font-size:17px;margin:0 0 12px}.section{margin-top:20px}.habit{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid #26342b}.habit:first-of-type{border-top:0}.habit input{width:21px;height:21px;accent-color:#5dd18e;flex-shrink:0}.habit label{flex:1}.habit b{font-size:12px;color:var(--muted);font-weight:600}
+input,select,textarea,button{font:inherit}input[type=number],input[type=time],input[type=date],textarea{background:#0e1711;border:1px solid var(--line);border-radius:11px;color:var(--text);padding:10px;min-width:0;width:100%}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:5px}
+button{border:0;border-radius:12px;padding:12px 15px;background:var(--green);color:#082012;font-weight:800;cursor:pointer}.secondary{background:#26372c;color:var(--text);border:1px solid var(--line)}.danger{background:#3a2424;color:#ffd6d6}.buttons{display:flex;gap:8px;flex-wrap:wrap}
+canvas{width:100%;height:210px;display:block}.legend{display:flex;gap:15px;flex-wrap:wrap;color:var(--muted);font-size:12px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;background:var(--green)}
+.heat{display:grid;grid-template-columns:repeat(13,1fr);gap:4px}.cell{aspect-ratio:1;border-radius:4px;background:#27352c}.cell[data-level="1"]{background:#315f43}.cell[data-level="2"]{background:#398b59}.cell[data-level="3"]{background:#57c77e}.cell[data-level="4"]{background:#a1edb8}
+details summary{cursor:pointer;color:var(--green);font-weight:700}.note{min-height:74px;resize:vertical}.footer{text-align:center;color:var(--muted);font-size:11px;padding:18px}
+@media(min-width:600px){body{padding-left:22px;padding-right:22px}.heat{grid-template-columns:repeat(23,1fr)}}
+</style>
+</head>
+<body><main>
+<header class="top"><div class="brand">✦ DREAM 184</div><div class="tag">OFFLINE-FIRST · PERSONAL TRACKER</div></header>
+<h1>Your discipline,<br>made visible.</h1>
+<p class="sub">184 days of small actions, honest scores and measurable progress.</p>
+<section class="card">
+ <div class="row"><div><div class="muted small">TODAY'S PRODUCTIVITY</div><div class="score" id="score">0<span style="font-size:18px">/100</span></div></div><div class="tag" id="dayTag">DAY 1 / 184</div></div>
+ <div class="bar"><i id="progress"></i></div><div class="row small muted"><span id="completed">0 of 10 habits completed</span><span id="rating">Keep building.</span></div>
+</section>
+<section class="card">
+ <div class="row"><h2>Daily check-in</h2><input id="entryDate" type="date" style="width:auto;max-width:155px"></div>
+ <div class="grid">
+  <div class="field"><label for="studyHours">Study hours</label><input id="studyHours" type="number" min="0" max="24" step=".5" placeholder="e.g. 8"></div>
+  <div class="field"><label for="mcqs">MCQs attempted</label><input id="mcqs" type="number" min="0" placeholder="e.g. 150"></div>
+  <div class="field"><label for="wakeTime">Wake-up time</label><input id="wakeTime" type="time"></div>
+  <div class="field"><label for="sleepTime">Sleep time</label><input id="sleepTime" type="time"></div>
+  <div class="field"><label for="gym">Workout (minutes)</label><input id="gym" type="number" min="0" placeholder="e.g. 45"></div>
+  <div class="field"><label for="targetWake">Wake target</label><input id="targetWake" type="time" value="05:30"></div>
+  <div class="field"><label for="targetSleep">Sleep target</label><input id="targetSleep" type="time" value="23:00"></div>
+  <div class="field"><label for="studyTarget">Study target (hours)</label><input id="studyTarget" type="number" min="0" max="24" step=".5" value="8"></div>
+ </div>
+ <div class="section"><h2>Habits</h2><div id="habits"></div></div>
+ <div class="field section"><label for="notes">Daily reflection</label><textarea class="note" id="notes" placeholder="What went well? What will I improve tomorrow?"></textarea></div>
+ <div class="buttons section"><button id="save">Save this day</button><button class="secondary" id="clear">Clear today's form</button></div>
+ <p class="small muted" id="saveMsg" aria-live="polite">Your entries stay on this device in this browser.</p>
+</section>
+<section class="card">
+ <div class="row"><h2>Productivity trend</h2><span class="tag">LAST 30 DAYS</span></div>
+ <canvas id="chart" width="700" height="220" aria-label="Daily productivity line graph"></canvas>
+ <div class="legend"><span><i class="dot"></i>Daily score</span><span>Blank days are not counted as zero.</span></div>
+ <div class="grid section">
+  <div><div class="muted small">RECORDED DAYS</div><strong id="recorded">0</strong></div>
+  <div><div class="muted small">AVERAGE SCORE</div><strong id="average">—</strong></div>
+  <div><div class="muted small">BEST DAY</div><strong id="best">—</strong></div>
+  <div><div class="muted small">STUDY HOURS TOTAL</div><strong id="totalStudy">0</strong></div>
+ </div>
+</section>
+<section class="card">
+ <h2>184-day consistency map</h2><p class="small muted">Each square is one day. Brighter means a higher saved score.</p><div class="heat" id="heat"></div>
+</section>
+<section class="card">
+ <h2>Backup & privacy</h2><p class="small muted">Your data is stored locally in this browser. Export a backup regularly, especially before clearing browser data or changing phones.</p>
+ <div class="buttons"><button class="secondary" id="export">Export backup</button><button class="secondary" id="importBtn">Import backup</button><input type="file" id="importFile" accept="application/json" hidden></div>
+ <details class="section"><summary>How to install on your home screen</summary><p class="small muted">Open this app from its hosted HTTPS address in Chrome, tap the three-dot menu, then choose “Add to Home screen” or “Install app”. This downloaded folder alone cannot create a home-screen install; it must first be hosted on a secure website.</p></details>
+</section>
+<div class="footer">DREAM 184 · Progress is not a straight line. Keep showing up.</div>
+</main>
+<script>
+const HABITS=[
+ ["wake","Wake up on time",10],["sleep","Sleep on time",10],["routine","Morning routine",5],
+ ["study","Complete study target",20],["revision","Revision / active recall",15],["mcqHabit","MCQs / PYQs + analysis",10],
+ ["gymHabit","Gym / planned movement",10],["food","Healthy meals + hydration",10],
+ ["scroll","Limit unnecessary scrolling",5],["plan","Plan tomorrow",5]
+];
+const KEY="dream184-v1";
+let db=JSON.parse(localStorage.getItem(KEY)||"{}");
+const $=id=>document.getElementById(id);
+const todayISO=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)};
+$("entryDate").value=todayISO();
+$("habits").innerHTML=HABITS.map(([id,name,pts])=>`<div class="habit"><input type="checkbox" id="h_${id}"><label for="h_${id}">${name}</label><b>${pts} pts</b></div>`).join("");
+function formData(){let habits={};HABITS.forEach(([id])=>habits[id]=$("h_"+id).checked);return {studyHours:+$("studyHours").value||0,mcqs:+$("mcqs").value||0,wakeTime:$("wakeTime").value,sleepTime:$("sleepTime").value,gym:+$("gym").value||0,targetWake:$("targetWake").value,targetSleep:$("targetSleep").value,studyTarget:+$("studyTarget").value||0,notes:$("notes").value,habits};}
+function scoreOf(x){return HABITS.reduce((s,[id,,p])=>s+(x.habits?.[id]?p:0),0);}
+function loadDay(){let d=$("entryDate").value,x=db[d]||{};$("studyHours").value=x.studyHours??"";$("mcqs").value=x.mcqs??"";$("wakeTime").value=x.wakeTime||"";$("sleepTime").value=x.sleepTime||"";$("gym").value=x.gym??"";$("targetWake").value=x.targetWake||"05:30";$("targetSleep").value=x.targetSleep||"23:00";$("studyTarget").value=x.studyTarget??8;$("notes").value=x.notes||"";HABITS.forEach(([id])=>$("h_"+id).checked=!!x.habits?.[id]);render();}
+function render(){let date=$("entryDate").value,x=db[date]||formData(),score=scoreOf(x);$("score").innerHTML=score+'<span style="font-size:18px">/100</span>';$("progress").style.width=score+"%";$("completed").textContent=HABITS.filter(([id])=>x.habits?.[id]).length+" of 10 habits completed";$("rating").textContent=score>=90?"Outstanding":score>=80?"Excellent":score>=60?"Building momentum":score>=40?"A start is a start":"One step at a time";let start=new Date("2026-11-19T12:00:00"),dt=new Date(date+"T12:00:00");let day=Math.max(1,Math.min(184,Math.floor((dt-start)/86400000)+1));$("dayTag").textContent=`DAY ${day} / 184`;
+let entries=Object.entries(db).sort((a,b)=>a[0].localeCompare(b[0])),vals=entries.map(([d,v])=>({d,s:scoreOf(v),v}));$("recorded").textContent=entries.length;$("average").textContent=entries.length?(vals.reduce((a,b)=>a+b.s,0)/entries.length).toFixed(1)+"/100":"—";$("best").textContent=vals.length?Math.max(...vals.map(v=>v.s))+"/100":"—";$("totalStudy").textContent=vals.reduce((a,b)=>a+(b.v.studyHours||0),0).toFixed(1);
+draw(vals.slice(-30));let heat=$("heat");heat.innerHTML="";for(let i=0;i<184;i++){let d=new Date(start);d.setDate(d.getDate()+i);let iso=new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10),v=db[iso],s=v?scoreOf(v):0,level=!v?0:s>=90?4:s>=70?3:s>=40?2:1;let el=document.createElement("div");el.className="cell";el.dataset.level=level;el.title=`Day ${i+1}: ${v?s+"/100":"not recorded"}`;heat.appendChild(el);}}
+function draw(vals){let c=$("chart"),ctx=c.getContext("2d"),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);ctx.strokeStyle="#304137";ctx.fillStyle="#9caf9f";ctx.font="12px system-ui";[0,25,50,75,100].forEach(v=>{let y=h-22-v/100*(h-45);ctx.beginPath();ctx.moveTo(34,y);ctx.lineTo(w-8,y);ctx.stroke();ctx.fillText(v,5,y+4)});if(!vals.length){ctx.fillText("Save your first day to see your graph.",150,110);return}let usable=w-55,step=vals.length>1?usable/(vals.length-1):0;ctx.strokeStyle="#69d69a";ctx.lineWidth=3;ctx.beginPath();vals.forEach((p,i)=>{let x=34+i*step,y=h-22-p.s/100*(h-45);i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();vals.forEach((p,i)=>{let x=34+i*step,y=h-22-p.s/100*(h-45);ctx.fillStyle="#a1edb8";ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill()});}
+$("save").onclick=()=>{let d=$("entryDate").value;if(!d)return;db[d]=formData();localStorage.setItem(KEY,JSON.stringify(db));$("saveMsg").textContent="Saved on this device ✓";render();};
+$("clear").onclick=()=>{HABITS.forEach(([id])=>$("h_"+id).checked=false);["studyHours","mcqs","wakeTime","sleepTime","gym","notes"].forEach(id=>$(id).value="");render();};
+$("entryDate").onchange=loadDay;
+$("export").onclick=()=>{let blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="DREAM184-backup.json";a.click();URL.revokeObjectURL(a.href);};
+$("importBtn").onclick=()=>$("importFile").click();
+$("importFile").onchange=async e=>{try{let obj=JSON.parse(await e.target.files[0].text());if(!obj||Array.isArray(obj)||typeof obj!=="object")throw Error();db={...db,...obj};localStorage.setItem(KEY,JSON.stringify(db));loadDay();$("saveMsg").textContent="Backup imported ✓";}catch{alert("That backup file could not be read.");}};
+loadDay();
+if ("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+</script>
+</body></html>
